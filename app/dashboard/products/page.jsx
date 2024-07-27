@@ -25,7 +25,7 @@ const ProductPage = () => {
           <tr>
             <td>
               <div className={styles.product}></div>
-              <Image src="/avatar.png" height={40} width={40} />
+              <Image src="/avatar.png" height={40} width={40} alt="" />
               Laptop
             </td>
             <td>
@@ -39,11 +39,11 @@ const ProductPage = () => {
             <td>07.26.2024</td>
             <td>available</td>
             <td>
-              <button className={`${styles.button} ${styles.view}`}>
-                View
-              </button>
-            </td>
-            <td>
+              <Link href="/dashboard/products/singleProduct">
+                <button className={`${styles.button} ${styles.view}`}>
+                  View
+                </button>
+              </Link>
               <button className={`${styles.button} ${styles.delete}`}>
                 Delete
               </button>
