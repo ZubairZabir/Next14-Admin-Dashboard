@@ -1,0 +1,12 @@
+[build]
+  base = "./"  # The root directory of your project
+  command = "npm run build"  # The command to build your Next.js application
+  publish = ".next"  # The directory containing the built application
+
+[build.environment]
+  NODE_ENV = "production"
+
+[[redirects]]
+  from = "/*"
+  to = "/dashboard"
+  status = 200
