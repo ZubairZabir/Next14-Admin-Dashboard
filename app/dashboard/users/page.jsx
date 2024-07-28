@@ -1,8 +1,28 @@
 import Image from "next/image";
 import styles from "@/app/ui/dashboard/users/users.module.css";
 import Link from "next/link";
+import { fetchUsers } from "@/app/lib/data";
 
-const UserPage = () => {
+const UserPage = async () => {
+  let users = [];
+  let error = null;
+  try {
+    users = await fetchUsers();
+    console.log(users);
+  } catch (err) {
+    console.error("Error fetching users:", err.message);
+    error = err.message;
+  }
+
+  if (error) {
+    return (
+      <div className={styles.error}>
+        <p>Failed to load users. Please try again later.</p>
+        <p>Error Details: {error}</p>
+      </div>
+    );
+  }
+
   return (
     <div className={styles.container}>
       <div className={styles.top}>
@@ -22,138 +42,36 @@ const UserPage = () => {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>
-              <div className={styles.user}>
-                <Image
-                  src="/avatar.png"
-                  alt=""
-                  width={40}
-                  height={40}
-                  className={styles.userImage}
-                />
-                John Cena
-              </div>
-            </td>
-            <td>johncena@gmail.com</td>
-            <td>07.26.2024</td>
-            <td>Admin</td>
-            <td>active</td>
-            <td>
-              <Link href="/dashboard/users/singleUser">
-                <button className={`${styles.button} ${styles.view}`}>
-                  View
+          {users.map((user) => (
+            <tr key={user._id}>
+              <td>
+                <div className={styles.user}>
+                  <Image
+                    src={user.img || "/avatar.png"}
+                    alt=""
+                    width={40}
+                    height={40}
+                    className={styles.userImage}
+                  />
+                  {user.username}
+                </div>
+              </td>
+              <td>{user.email}</td>
+              <td>{new Date(user.createdAt).toLocaleDateString()}</td>
+              <td>{user.isAdmin ? "Admin" : "User"}</td>
+              <td>{user.isActive ? "Active" : "Inactive"}</td>
+              <td>
+                <Link href={`/dashboard/users/${user._id}`}>
+                  <button className={`${styles.button} ${styles.view}`}>
+                    View
+                  </button>
+                </Link>
+                <button className={`${styles.button} ${styles.delete}`}>
+                  Delete
                 </button>
-              </Link>
-              <button className={`${styles.button} ${styles.delete}`}>
-                Delete
-              </button>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <div className={styles.user}>
-                <Image
-                  src="/avatar.png"
-                  alt=""
-                  width={40}
-                  height={40}
-                  className={styles.userImage}
-                />
-                John Cena
-              </div>
-            </td>
-            <td>johncena@gmail.com</td>
-            <td>07.26.2024</td>
-            <td>Admin</td>
-            <td>active</td>
-            <td>
-              <button className={`${styles.button} ${styles.view}`}>
-                View
-              </button>
-              <button className={`${styles.button} ${styles.delete}`}>
-                Delete
-              </button>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <div className={styles.user}>
-                <Image
-                  src="/avatar.png"
-                  alt=""
-                  width={40}
-                  height={40}
-                  className={styles.userImage}
-                />
-                John Cena
-              </div>
-            </td>
-            <td>johncena@gmail.com</td>
-            <td>07.26.2024</td>
-            <td>Admin</td>
-            <td>active</td>
-            <td>
-              <button className={`${styles.button} ${styles.view}`}>
-                View
-              </button>
-              <button className={`${styles.button} ${styles.delete}`}>
-                Delete
-              </button>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <div className={styles.user}>
-                <Image
-                  src="/avatar.png"
-                  alt=""
-                  width={40}
-                  height={40}
-                  className={styles.userImage}
-                />
-                John Cena
-              </div>
-            </td>
-            <td>johncena@gmail.com</td>
-            <td>07.26.2024</td>
-            <td>Admin</td>
-            <td>active</td>
-            <td>
-              <button className={`${styles.button} ${styles.view}`}>
-                View
-              </button>
-              <button className={`${styles.button} ${styles.delete}`}>
-                Delete
-              </button>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <div className={styles.user}>
-                <Image
-                  src="/avatar.png"
-                  alt=""
-                  width={40}
-                  height={40}
-                  className={styles.userImage}
-                />
-                John Cena
-              </div>
-            </td>
-            <td>johncena@gmail.com</td>
-            <td>07.26.2024</td>
-            <td>Admin</td>
-            <td>active</td>
-            <td>
-              <button className={`${styles.button} ${styles.view}`}>
-                View
-              </button>
-              <button className={`${styles.button} ${styles.delete}`}>
-                Delete
-              </button>
-            </td>
-          </tr>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>
