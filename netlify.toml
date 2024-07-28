@@ -8,5 +8,5 @@
 
 [[redirects]]
   from = "/*"
-  to = "/dashboard"
+  to = "/login"
   status = 200
