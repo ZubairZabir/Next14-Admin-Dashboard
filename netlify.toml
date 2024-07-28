@@ -1,3 +1,9 @@
+[[redirects]]
+  from = "/"
+  to = "/login"
+  status = 301
+  force = true
+
 [build]
   base = "./"
   command = "npm run build"
@@ -8,5 +14,5 @@
 
 [[redirects]]
   from = "/*"
-  to = "/login"
+  to = "/index.html"
   status = 200
